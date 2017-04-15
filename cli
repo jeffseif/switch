@@ -1,0 +1,9 @@
+#! /bin/bash
+
+# Setup
+
+make install ;
+
+# Run
+
+./venv/bin/python -m switch.main "$@" ;
