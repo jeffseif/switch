@@ -5,12 +5,6 @@ class WebSession:
     STATUS_TEMPLATE = '{:s} \033[1;37m{:s}\033[0m'
 
     def check_for_zipcode(self, zipcode):
-        html = self.run_session(zipcode, self.query)
-        status = self.SUCCESS if self.check_for_product(html, self.product_id) else self.FAILURE
+        response = self.run_session_for_zipcode(zipcode, self.prompt)
+        status = self.SUCCESS if self.check_response_for_product(response, self.product_id) else self.FAILURE
         print(self.STATUS_TEMPLATE.format(status, self.product_description))
-
-    def run_session(zipcode, query):
-        raise NotImplementedError
-
-    def check_for_product(zipcode, query):
-        raise NotImplementedError

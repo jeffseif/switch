@@ -6,6 +6,10 @@ import os.path
 import time
 
 
+class DontCacheException(Exception):
+    pass
+
+
 def args_to_hash_filename(*args):
     hashable = '|'.join(map(repr, args))
     kernel = hashlib.md5(hashable.encode('utf-8')).hexdigest()[: 16]
@@ -23,16 +27,21 @@ def io_cache_with_ttl(seconds=None):
 
         def io_cache(self, *args):
 
+            args_to_hash = [self.__name__, *args]
             if seconds is not None:
-                filename = args_to_hash_filename(*args, truncated_epoch(seconds))
-            else:
-                filename = args_to_hash_filename(*args)
+                args_to_hash.append(truncated_epoch(seconds))
+
+            filename = args_to_hash_filename(*args_to_hash)
 
             if os.path.isfile(filename):
                 content = load_from_gzip(filename)
             else:
-                content = function(self, *args)
-                dump_to_gzip(filename, content)
+                try:
+                    content = function(self, *args)
+                    dump_to_gzip(filename, content)
+                except DontCacheException as e:
+                    print(e)
+                    content = ''
 
             return content
 
