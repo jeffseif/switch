@@ -4,7 +4,6 @@ from json import loads
 from requests import Session
 
 from switch import HEADERS
-from switch import LOCATION_TEMPLATE
 from switch import TTL
 from switch.cache import io_cache_with_ttl
 from switch.cache import DontCacheException
@@ -52,7 +51,7 @@ class WalmartSession(WebSession, namedtuple('WalmartSession', ['product_id', 'pr
                     if location['availability'] == cls.AVAILABLE:
                         name = location['storeName']
                         address = location['storeAddress']
-                        yield LOCATION_TEMPLATE.format(name, address)
+                        yield name, address
 
 
 def walmart(args):

@@ -4,7 +4,6 @@ from bs4 import BeautifulSoup
 from requests import Session
 
 from switch import HEADERS
-from switch import LOCATION_TEMPLATE
 from switch import TTL
 from switch.cache import io_cache_with_ttl
 from switch.cache import DontCacheException
@@ -53,7 +52,7 @@ class AmazonSession(WebSession, namedtuple('AmazonSession', ['prompt', 'product_
         for anchor in soup.select('a.a-link-normal'):
             href = anchor.get('href', '')
             if product_id in href:
-                yield LOCATION_TEMPLATE.format('Internet', cls.AMAZON_URL_TEMPLATE.format(href))
+                yield 'Internet', cls.AMAZON_URL_TEMPLATE.format(href)
                 break
 
 
