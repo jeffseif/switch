@@ -5,6 +5,7 @@ from requests import Session
 
 from switch import HEADERS
 from switch import LOCATION_TEMPLATE
+from switch import TTL
 from switch.cache import io_cache_with_ttl
 from switch.cache import DontCacheException
 from switch.web_session import WebSession
@@ -27,7 +28,7 @@ class WalmartSession(WebSession, namedtuple('WalmartSession', ['product_id', 'pr
         self.prompt = self.product_id
 
     @classmethod
-    @io_cache_with_ttl(seconds=600) # Dump cache every ten minutes
+    @io_cache_with_ttl(seconds=TTL)
     def run_session_for_zipcode(cls, zipcode, product_id):
         session = Session()
         session.headers.update(HEADERS)
@@ -55,11 +56,11 @@ class WalmartSession(WebSession, namedtuple('WalmartSession', ['product_id', 'pr
 
 
 def walmart(args):
-    print('\n> Checking Walmart inventory\n')
+    print('\n> Walmart\n')
     for walmart_session in (
-        WalmartSession('2E713IVGQ5JX', 'Nintendo Switch Gaming Console with Neon Blue and Neon Red Joy-Con'),
-        WalmartSession('3B092LFMR8PF', 'Nintendo Switch Gaming Console with Gray Joy-Con'),
-        WalmartSession('4C90I750L5J3', 'The Legend of Zelda: Breath of the Wild (Nintendo Switch)'),
-        WalmartSession('472G702DJ8RK', 'Nintendo Switch Pro Controller'),
+        WalmartSession('3B092LFMR8PF', 'Gray Console'),
+        WalmartSession('2E713IVGQ5JX', 'Neon Console'),
+        WalmartSession('4C90I750L5J3', 'Breath of the Wild'),
+        WalmartSession('472G702DJ8RK', 'Pro Controller'),
     ):
         walmart_session.check_for_zipcode(args.zipcode)

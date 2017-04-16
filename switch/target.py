@@ -5,6 +5,7 @@ from requests import Session
 
 from switch import HEADERS
 from switch import LOCATION_TEMPLATE
+from switch import TTL
 from switch.cache import io_cache_with_ttl
 from switch.cache import DontCacheException
 from switch.web_session import WebSession
@@ -27,7 +28,7 @@ class TargetSession(WebSession, namedtuple('TargetSession', ['product_id', 'prod
         self.prompt = self.product_id
 
     @classmethod
-    @io_cache_with_ttl(seconds=600) # Dump cache every ten minutes
+    @io_cache_with_ttl(seconds=TTL)
     def run_session_for_zipcode(cls, zipcode, product_id):
         print('Performing API call for `{:d}` in {:d} ...'.format(product_id, zipcode))
         session = Session()
@@ -57,10 +58,10 @@ class TargetSession(WebSession, namedtuple('TargetSession', ['product_id', 'prod
 
 
 def target(args):
-    print('\n> Checking Target inventory\n')
+    print('\n> Target\n')
     for target_session in (
-        TargetSession(52189185, 'Nintendo® Switch™ with Neon Blue and Neon Red Joy-Con™',),
-        TargetSession(52052007, 'Nintendo Switch Gray ???',),
-        TargetSession(52161264, 'The Legend of Zelda™: Breath of the Wild™ (Nintendo Switch)',),
+        TargetSession(52052007, 'Gray Console',),
+        TargetSession(52189185, 'Neon Console',),
+        TargetSession(52161264, 'Breath of the Wild',),
     ):
         target_session.check_for_zipcode(args.zipcode)

@@ -16,3 +16,4 @@ HEADERS = {
     'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Safari/537.36',
 }
 LOCATION_TEMPLATE = '\033[1;33m{:s}\033[0m: \033[1;90m{:s}\033[0m'
+TTL = 600 # IO caches will be ignored after 10 minutes

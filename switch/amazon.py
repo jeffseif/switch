@@ -5,6 +5,7 @@ from requests import Session
 
 from switch import HEADERS
 from switch import LOCATION_TEMPLATE
+from switch import TTL
 from switch.cache import io_cache_with_ttl
 from switch.cache import DontCacheException
 from switch.web_session import WebSession
@@ -19,7 +20,7 @@ class AmazonSession(WebSession, namedtuple('AmazonSession', ['prompt', 'product_
     SEARCH_URL = POST_URL + '/search'
 
     @classmethod
-    @io_cache_with_ttl(seconds=600) # Dump cache every ten minutes
+    @io_cache_with_ttl(seconds=TTL)
     def run_session_for_zipcode(cls, zipcode, query):
         print('Performing search query `{:s}` in {:d} ...'.format(query, zipcode))
         session = Session()
@@ -57,11 +58,11 @@ class AmazonSession(WebSession, namedtuple('AmazonSession', ['prompt', 'product_
 
 
 def amazon(args):
-    print('\n> Checking Amazon inventory\n')
+    print('\n> Amazon\n')
     for amazon_session in (
-        AmazonSession('nintendo switch', 'B01LTHP2ZK', 'Nintendo Switch with Gray Joy-Con'),
-        AmazonSession('nintendo switch', 'B01MUAGZ49', 'Nintendo Switch with Neon Blue and Neon Red Joy-Con'),
-        AmazonSession('breath of the wild', 'B01MS6MO77', 'The Legend of Zelda: Breath of the Wild - Nintendo Switch'),
-        AmazonSession('nintendo switch pro controller', 'B01NAWKYZ0', 'Nintendo Switch Pro Controller'),
+        AmazonSession('nintendo switch', 'B01LTHP2ZK', 'Gray Console'),
+        AmazonSession('nintendo switch', 'B01MUAGZ49', 'Neon Console'),
+        AmazonSession('breath of the wild', 'B01MS6MO77', 'Breath of the Wild'),
+        AmazonSession('nintendo switch pro controller', 'B01NAWKYZ0', 'Pro Controller'),
     ):
         amazon_session.check_for_zipcode(args.zipcode)
