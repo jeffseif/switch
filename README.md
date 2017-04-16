@@ -8,28 +8,28 @@ Scraping tools for getting me a damn Nintendo Switch
 git clone git@github.com:jeffseif/switch.git
 cd switch
 ./cli --help
-usage: main.py [-h] [--version] {all,amazon,target,walmart} ...           
-                                                                          
-Scraping tools for getting me a damn Nintendo Switch                      
-                                                                          
-positional arguments:                                                     
-  {all,amazon,target,walmart}                                             
-    all                 Check all                                         
-    amazon              Check amazon                                      
-    target              Check target                                      
-    walmart             Check walmart                                     
-                                                                          
-optional arguments:                                                       
-  -h, --help            show this help message and exit                   
-  --version             show program's version number and exit            
-                                                                          
-Version 1.0.0 | Jeffrey Seifried 2017                                     
+usage: main.py [-h] [--version] {all,amazon,target,walmart} ...
+
+Scraping tools for getting me a damn Nintendo Switch
+
+positional arguments:
+  {all,amazon,target,walmart}
+    all                 Check all
+    amazon              Check amazon
+    target              Check target
+    walmart             Check walmart
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --version             show program's version number and exit
+
+Version 1.0.0 | Jeffrey Seifried 2017
 ```
 
 ## Example
 
 ```bash
-./cli all --zipcode=94703
+./cli all --beyond-console --zipcode=94703
 
 > Amazon
 
