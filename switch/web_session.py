@@ -25,4 +25,4 @@ class WebSession(Logger):
         print(' '.join((status, WHITE(self.product_description))))
         for left, right in results:
             print(YELLOW(left) + ': ' + BLUE(right))
-            IFTTT(self.__class__.__name__, left, right)
+            IFTTT(self.product_description, ' '.join((left, self.__class__.__name__)), right)

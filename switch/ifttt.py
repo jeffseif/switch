@@ -6,9 +6,9 @@ from requests import post
 CONFIGS = None
 TEMPLATE = 'https://maker.ifttt.com/trigger/{event:s}/with/key/{key:s}'
 VALUES = (
-    'value1',
-    'value2',
-    'value3',
+    'value1', # Description
+    'value2', # Location
+    'value3', # Address
 )
 
 
@@ -28,6 +28,6 @@ def IFTTT(*values):
     url = TEMPLATE.format(**CONFIGS)
     payload = dict(zip(VALUES, values))
     response = post(
-        url,
-        data=json.dumps(payload),
+        url=url,
+        json=payload,
     )
