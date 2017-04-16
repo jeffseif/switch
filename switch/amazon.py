@@ -47,18 +47,17 @@ class AmazonSession(WebSession, namedtuple('AmazonSession', ['prompt', 'product_
 
         div = 'div#house-search-result div#asin-card-{}'.format(product_id)
         if not soup.select(div):
-            return False
+            return
 
         for anchor in soup.select('a.a-link-normal'):
             href = anchor.get('href', '')
             if product_id in href:
-                print(LOCATION_TEMPLATE.format('Amazon', cls.AMAZON_URL_TEMPLATE.format(href)))
+                yield LOCATION_TEMPLATE.format('Internet', cls.AMAZON_URL_TEMPLATE.format(href))
                 break
-
-        return True
 
 
 def amazon(args):
+    print('\n> Checking Amazon inventory\n')
     for amazon_session in (
         AmazonSession('nintendo switch', 'B01LTHP2ZK', 'Nintendo Switch with Gray Joy-Con'),
         AmazonSession('nintendo switch', 'B01MUAGZ49', 'Nintendo Switch with Neon Blue and Neon Red Joy-Con'),

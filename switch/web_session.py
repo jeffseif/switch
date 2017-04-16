@@ -6,5 +6,10 @@ class WebSession:
 
     def check_for_zipcode(self, zipcode):
         response = self.run_session_for_zipcode(zipcode, self.prompt)
-        status = self.SUCCESS if self.check_response_for_product(response, self.product_id) else self.FAILURE
+
+        results = list(self.check_response_for_product(response, self.product_id))
+        status = self.SUCCESS if results else self.FAILURE
+
         print(self.STATUS_TEMPLATE.format(status, self.product_description))
+        for result in results:
+            print(result)

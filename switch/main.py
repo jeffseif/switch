@@ -50,6 +50,14 @@ def main():
     )
     parents = (parent,)
 
+    # All
+    all_parser = subparsers.add_parser(
+        'all',
+        parents=parents,
+        help='Check all',
+    )
+    all_parser.set_defaults(funcs=(amazon, target, walmart))
+
     # Amazon
     amazon_parser = subparsers.add_parser(
         'amazon',
@@ -77,6 +85,9 @@ def main():
     args = parser.parse_args()
     if hasattr(args, 'func'):
         args.func(args)
+    if hasattr(args, 'funcs'):
+        for func in args.funcs:
+            func(args)
 
 
 if __name__ == '__main__':

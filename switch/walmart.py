@@ -45,19 +45,17 @@ class WalmartSession(WebSession, namedtuple('WalmartSession', ['product_id', 'pr
     def check_response_for_product(cls, response, product_id):
         json = loads(response)
 
-        status = False
         for offer in json['payload']['offers'].values():
             if offer['productAvailability']['availabilityStatus'] == cls.IN_STOCK:
                 for location in offer['fulfillment'].get('pickupOptions', []):
                     if location['availability'] == cls.AVAILABLE:
                         name = location['storeName']
                         address = location['storeAddress']
-                        print(LOCATION_TEMPLATE.format(name, address))
-                        status = True
-        return status
+                        yield LOCATION_TEMPLATE.format(name, address)
 
 
 def walmart(args):
+    print('\n> Checking Walmart inventory\n')
     for walmart_session in (
         WalmartSession('2E713IVGQ5JX', 'Nintendo Switch Gaming Console with Neon Blue and Neon Red Joy-Con'),
         WalmartSession('3B092LFMR8PF', 'Nintendo Switch Gaming Console with Gray Joy-Con'),

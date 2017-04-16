@@ -46,7 +46,6 @@ class TargetSession(WebSession, namedtuple('TargetSession', ['product_id', 'prod
     def check_response_for_product(cls, response, product_id):
         json = loads(response)
 
-        status = False
         for location in sorted(
             json['products'][0]['locations'],
             key = lambda location: location['distance'],
@@ -54,12 +53,11 @@ class TargetSession(WebSession, namedtuple('TargetSession', ['product_id', 'prod
             if location['availability_status'] == cls.IN_STOCK:
                 name = location['store_name']
                 address = location['formatted_store_address']
-                print(LOCATION_TEMPLATE.format(name, address))
-                status = True
-        return status
+                yield LOCATION_TEMPLATE.format(name, address)
 
 
 def target(args):
+    print('\n> Checking Target inventory\n')
     for target_session in (
         TargetSession(52189185, 'Nintendo® Switch™ with Neon Blue and Neon Red Joy-Con™',),
         TargetSession(52052007, 'Nintendo Switch Gray ???',),
