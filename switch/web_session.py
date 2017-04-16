@@ -4,6 +4,7 @@ from colors import RED
 from colors import YELLOW
 from colors import WHITE
 
+from switch.ifttt import IFTTT
 from switch.logger import Logger
 
 
@@ -24,3 +25,4 @@ class WebSession(Logger):
         print(' '.join((status, WHITE(self.product_description))))
         for left, right in results:
             print(YELLOW(left) + ': ' + BLUE(right))
+            IFTTT(self.__class__.__name__, left, right)
