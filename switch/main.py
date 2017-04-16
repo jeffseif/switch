@@ -1,10 +1,9 @@
-import datetime
-
 from switch import __author__
 from switch import __description__
 from switch import __version__
 from switch import __year__
 from switch.amazon import amazon
+from switch.logger import set_logging_verbosity
 from switch.walmart import walmart
 from switch.target import target
 
@@ -34,6 +33,13 @@ def main():
 
     # Parent
     parent = argparse.ArgumentParser(add_help=False)
+    parent.add_argument(
+        '-b',
+        '--beyond-console',
+        action='store_true',
+        default=False,
+        help='Check products beyond just the console',
+    )
     parent.add_argument(
         '-v',
         '--verbose',
@@ -83,6 +89,7 @@ def main():
     walmart_parser.set_defaults(func=walmart)
 
     args = parser.parse_args()
+    set_logging_verbosity(args.verbose)
     if hasattr(args, 'func'):
         args.func(args)
     if hasattr(args, 'funcs'):

@@ -10,7 +10,7 @@ from switch.cache import DontCacheException
 from switch.web_session import WebSession
 
 
-class WalmartSession(WebSession, namedtuple('WalmartSession', ['product_id', 'product_description'])):
+class WalmartSession(WebSession, namedtuple('WalmartSession', ['product_id', 'product_description', 'is_console'])):
 
     # Based upon https://gist.github.com/rms1000watt/c22cab5aed126824ac0c680fce6669aa
 
@@ -29,6 +29,7 @@ class WalmartSession(WebSession, namedtuple('WalmartSession', ['product_id', 'pr
     @classmethod
     @io_cache_with_ttl(seconds=TTL)
     def run_session_for_zipcode(cls, zipcode, product_id):
+        cls.info('Performing API call for `{:s}` in {:d} ...'.format(product_id, zipcode))
         session = Session()
         session.headers.update(HEADERS)
         session.headers.update(cls.WALMART_HEADERS)
@@ -57,9 +58,9 @@ class WalmartSession(WebSession, namedtuple('WalmartSession', ['product_id', 'pr
 def walmart(args):
     print('\n> Walmart\n')
     for walmart_session in (
-        WalmartSession('3B092LFMR8PF', 'Gray Console'),
-        WalmartSession('2E713IVGQ5JX', 'Neon Console'),
-        WalmartSession('4C90I750L5J3', 'Breath of the Wild'),
-        WalmartSession('472G702DJ8RK', 'Pro Controller'),
+        WalmartSession('3B092LFMR8PF', 'Gray Console', True),
+        WalmartSession('2E713IVGQ5JX', 'Neon Console', True),
+        WalmartSession('4C90I750L5J3', 'Breath of the Wild', False),
+        WalmartSession('472G702DJ8RK', 'Pro Controller', False),
     ):
-        walmart_session.check_for_zipcode(args.zipcode)
+        walmart_session.check_for_zipcode(args)

@@ -10,7 +10,7 @@ from switch.cache import DontCacheException
 from switch.web_session import WebSession
 
 
-class AmazonSession(WebSession, namedtuple('AmazonSession', ['prompt', 'product_id', 'product_description'])):
+class AmazonSession(WebSession, namedtuple('AmazonSession', ['prompt', 'product_id', 'product_description', 'is_console'])):
 
     # Based upon https://gist.github.com/bryanhelmig/3225bf42e5d2b8fb0cb4b720ac2d3c3b
 
@@ -21,7 +21,7 @@ class AmazonSession(WebSession, namedtuple('AmazonSession', ['prompt', 'product_
     @classmethod
     @io_cache_with_ttl(seconds=TTL)
     def run_session_for_zipcode(cls, zipcode, query):
-        print('Performing search query `{:s}` in {:d} ...'.format(query, zipcode))
+        cls.info('Performing search query `{:s}` in {:d} ...'.format(query, zipcode))
         session = Session()
         session.headers.update(HEADERS)
 
@@ -59,9 +59,9 @@ class AmazonSession(WebSession, namedtuple('AmazonSession', ['prompt', 'product_
 def amazon(args):
     print('\n> Amazon\n')
     for amazon_session in (
-        AmazonSession('nintendo switch', 'B01LTHP2ZK', 'Gray Console'),
-        AmazonSession('nintendo switch', 'B01MUAGZ49', 'Neon Console'),
-        AmazonSession('breath of the wild', 'B01MS6MO77', 'Breath of the Wild'),
-        AmazonSession('nintendo switch pro controller', 'B01NAWKYZ0', 'Pro Controller'),
+        AmazonSession('nintendo switch', 'B01LTHP2ZK', 'Gray Console', True),
+        AmazonSession('nintendo switch', 'B01MUAGZ49', 'Neon Console', True),
+        AmazonSession('breath of the wild', 'B01MS6MO77', 'Breath of the Wild', False),
+        AmazonSession('nintendo switch pro controller', 'B01NAWKYZ0', 'Pro Controller', False),
     ):
-        amazon_session.check_for_zipcode(args.zipcode)
+        amazon_session.check_for_zipcode(args)
