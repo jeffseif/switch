@@ -18,8 +18,8 @@ class AmazonSession(WebSession, namedtuple('AmazonSession', ['prompt', 'product_
 
     @classmethod
     @io_cache_with_ttl(seconds=600) # Dump cache every ten minutes
-    def run_session_for_zipcode(cls, zipcode, prompt):
-        print('Performing search query `{:s}` in {:d} ...'.format(prompt, zipcode))
+    def run_session_for_zipcode(cls, zipcode, query):
+        print('Performing search query `{:s}` in {:d} ...'.format(query, zipcode))
         session = Session()
         session.headers.update(HEADERS)
 
@@ -32,7 +32,7 @@ class AmazonSession(WebSession, namedtuple('AmazonSession', ['prompt', 'product_
 
         response = session.get(
             cls.SEARCH_URL,
-            params={'k': prompt},
+            params={'k': query},
         )
         if not response.ok:
             raise DontCacheException(response, response.reason)

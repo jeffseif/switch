@@ -1,2 +1,0 @@
-def bestbuy(args):
-    return
