@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from requests import Session
 
 from switch import HEADERS
+from switch import LOCATION_TEMPLATE
 from switch.cache import io_cache_with_ttl
 from switch.cache import DontCacheException
 from switch.web_session import WebSession
@@ -13,6 +14,7 @@ class AmazonSession(WebSession, namedtuple('AmazonSession', ['prompt', 'product_
 
     # Based upon https://gist.github.com/bryanhelmig/3225bf42e5d2b8fb0cb4b720ac2d3c3b
 
+    AMAZON_URL_TEMPLATE = 'https://www.amazon.com{:s}'
     POST_URL = 'https://primenow.amazon.com'
     SEARCH_URL = POST_URL + '/search'
 
@@ -39,11 +41,21 @@ class AmazonSession(WebSession, namedtuple('AmazonSession', ['prompt', 'product_
 
         return response.text
 
-    @staticmethod
-    def check_response_for_product(response, product_id):
+    @classmethod
+    def check_response_for_product(cls, response, product_id):
         soup = BeautifulSoup(response, 'html.parser')
+
         div = 'div#house-search-result div#asin-card-{}'.format(product_id)
-        return bool(soup.select(div))
+        if not soup.select(div):
+            return False
+
+        for anchor in soup.select('a.a-link-normal'):
+            href = anchor.get('href', '')
+            if product_id in href:
+                print(LOCATION_TEMPLATE.format('Amazon', cls.AMAZON_URL_TEMPLATE.format(href)))
+                break
+
+        return True
 
 
 def amazon(args):
