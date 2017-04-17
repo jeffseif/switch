@@ -9,6 +9,8 @@ while true ; do
     clear ;
     date ;
     ./cli ifttt \
+        --verbose \
+        --verbose \
         -c "${CONFIG_PATH}" ;
     sleep "${DELAY_SECONDS}" ;
 done
