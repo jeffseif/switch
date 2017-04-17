@@ -31,3 +31,14 @@ def IFTTT(*values):
         url=url,
         json=payload,
     )
+
+
+def end_to_end(args):
+    if args.config_path is None:
+        raise ValueError('Use the --config-path option')
+    values = (
+        '<product name>',
+        '<location>',
+        '<address>',
+    )
+    IFTTT(values)

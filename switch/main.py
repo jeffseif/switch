@@ -4,6 +4,7 @@ from switch import __version__
 from switch import __year__
 from switch.amazon import amazon
 from switch.ifttt import maybe_load_configs
+from switch.ifttt import end_to_end
 from switch.logger import set_logging_verbosity
 from switch.walmart import walmart
 from switch.target import target
@@ -79,6 +80,14 @@ def main():
     )
     amazon_parser.set_defaults(func=amazon)
 
+    # IFTTT test
+    ifttt_parser = subparsers.add_parser(
+        'ifttt',
+        parents=parents,
+        help='Test ifttt setup',
+    )
+    ifttt_parser.set_defaults(func=end_to_end)
+
     # Target
     target_parser = subparsers.add_parser(
         'target',
@@ -96,8 +105,10 @@ def main():
     walmart_parser.set_defaults(func=walmart)
 
     args = parser.parse_args()
-    set_logging_verbosity(args.verbose)
-    maybe_load_configs(args)
+    if hasattr(args, 'verbose'):
+        set_logging_verbosity(args.verbose)
+    if hasattr(args, 'config_path'):
+        maybe_load_configs(args)
     if hasattr(args, 'func'):
         args.func(args)
     if hasattr(args, 'funcs'):
