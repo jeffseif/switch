@@ -1,9 +1,5 @@
 #! /bin/bash
 
-# Setup
+MODULE=$(basename $(pwd)) ;
 
-make install ;
-
-# Run
-
-./venv/bin/python -m switch.main "$@" ;
+make && ./venv/bin/python -m "${MODULE}.main" "$@" ;
