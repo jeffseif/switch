@@ -10,9 +10,7 @@ from switch import __version__
 setup(
     author=__author__,
     author_email=__email__,
-    dependency_links=[
-        'https://github.com/jeffseif/colors.git#egg=colors',
-    ],
+    dependency_links=[],
     install_requires=[
         'beautifulsoup4>=4.5.3',
         'requests>=2.9.1',

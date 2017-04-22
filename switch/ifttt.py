@@ -6,9 +6,9 @@ from requests import post
 CONFIGS = None
 TEMPLATE = 'https://maker.ifttt.com/trigger/{event:s}/with/key/{key:s}'
 VALUES = (
-    'value1', # Description
-    'value2', # Location
-    'value3', # Address
+    'value1',  # Description
+    'value2',  # Location
+    'value3',  # Address
 )
 
 

@@ -14,7 +14,7 @@ class TargetSession(WebSession, namedtuple('TargetSession', ['product_id', 'prod
 
     # Based upon https://gist.github.com/rms1000watt/c22cab5aed126824ac0c680fce6669aa
 
-    GET_URL_TEMPLATE = 'https://api.target.com/available_to_promise/v2/{:d}/search?key=eb2551e4accc14f38cc42d32fbc2b2ea&nearby={:d}&inventory_type=stores&multichannel_option=none&field_groups=location_summary&requested_quantity=1&radius=100'
+    GET_URL_TEMPLATE = 'https://api.target.com/available_to_promise/v2/{:d}/search?key=eb2551e4accc14f38cc42d32fbc2b2ea&nearby={:d}&inventory_type=stores&multichannel_option=none&field_groups=location_summary&requested_quantity=1&radius=100'  # noqa
     IN_STOCK = 'IN_STOCK'
     TARGET_HEADERS = {
         'Host': 'api.target.com',
@@ -48,7 +48,7 @@ class TargetSession(WebSession, namedtuple('TargetSession', ['product_id', 'prod
 
         for location in sorted(
             json['products'][0]['locations'],
-            key = lambda location: location['distance'],
+            key=lambda location: location['distance'],
         ):
             if location['availability_status'] == cls.IN_STOCK:
                 name = location['store_name']

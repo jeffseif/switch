@@ -36,6 +36,7 @@ clean:
 	@rm -rf .eggs/
 	@rm -rf .tox/
 	@rm -rf dist/
+	@rm -rf .pytest_cache/
 	@rm -f .coverage
 	@rm -rf $(VENV)
 	@find . -name "*.pyc" -delete

@@ -10,7 +10,7 @@ from switch.cache import DontCacheException
 from switch.web_session import WebSession
 
 
-class AmazonSession(WebSession, namedtuple('AmazonSession', ['prompt', 'product_id', 'product_description', 'is_console'])):
+class AmazonSession(WebSession, namedtuple('AmazonSession', ['prompt', 'product_id', 'product_description', 'is_console'])):  # noqa
 
     # Based upon https://gist.github.com/bryanhelmig/3225bf42e5d2b8fb0cb4b720ac2d3c3b
 
