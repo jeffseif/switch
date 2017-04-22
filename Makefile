@@ -1,19 +1,22 @@
+PYTHON = $(shell which python3)
+VENV = venv/
+
 .PHONY: all
 all: install
 
 .PHONY: install
-install: venv/.setup
+install: $(VENV).setup
 
-venv/.setup: venv
+$(VENV).setup: $(VENV)
 	@$</bin/python setup.py \
 		install \
 		--quiet
 	@touch $@
 
-venv: requirements.txt
+$(VENV): requirements.txt
 	@virtualenv \
 		--no-site-packages \
-		--python=$(which python3) \
+		--python=$(PYTHON) \
 		$@
 	@$@/bin/pip install \
 		--requirement $<
@@ -22,17 +25,18 @@ venv: requirements.txt
 	@touch $@
 
 .PHONY: test
-test: venv
+test: $(VENV)
 	@$</bin/tox
 
 .PHONY: clean
 clean:
-	@venv/bin/python setup.py clean --all
+	@$(VENV)bin/python setup.py clean --all
 	@rm -rf *.egg-info/
 	@rm -rf .cache/
 	@rm -rf .eggs/
 	@rm -rf .tox/
 	@rm -rf dist/
 	@rm -f .coverage
+	@rm -rf $(VENV)
 	@find . -name "*.pyc" -delete
 	@find . -name "__pycache__" -type d -delete
