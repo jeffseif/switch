@@ -1,12 +1,12 @@
 from collections import namedtuple
 from json import loads
 
+from cachet import DontCacheException
+from cachet import sqlite_cache
 from requests import Session
 
 from switch import HEADERS
 from switch import TTL
-from switch.cache import io_cache_with_ttl
-from switch.cache import DontCacheException
 from switch.web_session import WebSession
 
 
@@ -27,7 +27,7 @@ class TargetSession(WebSession, namedtuple('TargetSession', ['product_id', 'prod
         self.prompt = self.product_id
 
     @classmethod
-    @io_cache_with_ttl(seconds=TTL)
+    @sqlite_cache(ttl=TTL)
     def run_session_for_zipcode(cls, zipcode, product_id):
         cls.info('Performing API call for `{:d}` in {:d} ...'.format(product_id, zipcode))
         session = Session()

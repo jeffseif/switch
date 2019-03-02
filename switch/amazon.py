@@ -1,12 +1,12 @@
 from collections import namedtuple
 
 from bs4 import BeautifulSoup
+from cachet import DontCacheException
+from cachet import sqlite_cache
 from requests import Session
 
 from switch import HEADERS
 from switch import TTL
-from switch.cache import io_cache_with_ttl
-from switch.cache import DontCacheException
 from switch.web_session import WebSession
 
 
@@ -19,7 +19,7 @@ class AmazonSession(WebSession, namedtuple('AmazonSession', ['prompt', 'product_
     SEARCH_URL = POST_URL + '/search'
 
     @classmethod
-    @io_cache_with_ttl(seconds=TTL)
+    @sqlite_cache(ttl=TTL)
     def run_session_for_zipcode(cls, zipcode, query):
         cls.info('Performing search query `{:s}` in {:d} ...'.format(query, zipcode))
         session = Session()
