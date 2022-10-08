@@ -1,42 +1,25 @@
 PYTHON = $(shell which python3)
-VENV = venv/
-
-.PHONY: all
-all: install
+SHELL = /bin/bash
+VENV_DIR = venv
 
 .PHONY: install
-install: $(VENV).setup
+install: $(VENV_DIR)
 
-$(VENV).setup: $(VENV)
-	@$</bin/python setup.py \
-		install \
-		--quiet
-	@touch $@
+$(VENV_DIR): requirements-minimal.txt
+	@$(PYTHON) -m venv $@
+	@$@/bin/pip install --quiet --upgrade pip
+	@$@/bin/pip install --quiet --requirement $<
 
-$(VENV): requirements.txt
-	@virtualenv \
-		--python=$(PYTHON) \
-		$@
-	@$@/bin/pip install \
-		--requirement $<
-	@$@/bin/pip install \
-		--upgrade pip
-	@touch $@
+.PHONY: lint
+lint: requirements-dev-minimal.txt $(VENV_DIR)
+	@$(VENV_DIR)/bin/pip install --quiet --requirement $<
+	@$(VENV_DIR)/bin/pre-commit install
+	@$(VENV_DIR)/bin/pre-commit run --all-files
 
 .PHONY: test
-test: $(VENV)
-	@$</bin/tox
+test: lint
+	@$(VENV_DIR)/bin/pytest tests
 
 .PHONY: clean
 clean:
-	@$(VENV)bin/python setup.py clean --all
-	@rm -rf *.egg-info/
-	@rm -rf .cache/
-	@rm -rf .eggs/
-	@rm -rf .tox/
-	@rm -rf dist/
-	@rm -rf .pytest_cache/
-	@rm -f .coverage
-	@rm -rf $(VENV)
-	@find . -name "*.pyc" -delete
-	@find . -name "__pycache__" -type d -delete
+	@git clean -fdfx

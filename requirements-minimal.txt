@@ -1,0 +1,4 @@
+beautifulsoup4
+-e git+https://github.com/jeffseif/cachet.git#egg=cachet
+-e git+https://github.com/jeffseif/colors.git#egg=colors
+requests

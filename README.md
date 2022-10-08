@@ -8,7 +8,7 @@ Scraping tools for getting me a damn Nintendo Switch
 git clone git@github.com:jeffseif/switch.git
 cd switch
 ./cli --help
-usage: main.py [-h] [--version] {all,amazon,target,walmart} ...
+usage: __main__.py [-h] [--version] {all,amazon,target,walmart} ...
 
 Scraping tools for getting me a damn Nintendo Switch
 
