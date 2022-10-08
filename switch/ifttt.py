@@ -4,11 +4,11 @@ from requests import post
 
 
 CONFIGS = None
-TEMPLATE = 'https://maker.ifttt.com/trigger/{event:s}/with/key/{key:s}'
+TEMPLATE = "https://maker.ifttt.com/trigger/{event:s}/with/key/{key:s}"
 VALUES = (
-    'value1',  # Description
-    'value2',  # Location
-    'value3',  # Address
+    "value1",  # Description
+    "value2",  # Location
+    "value3",  # Address
 )
 
 
@@ -20,7 +20,7 @@ def maybe_load_configs(args):
     if args.config_path is None:
         return
 
-    with open(args.config_path, 'r') as f:
+    with open(args.config_path, "r") as f:
         CONFIGS = json.load(f)
 
 
@@ -36,10 +36,10 @@ def IFTTT(*values):
 
 def end_to_end(args):
     if args.config_path is None:
-        raise ValueError('Use the --config-path option')
+        raise ValueError("Use the --config-path option")
     values = (
-        'PRODUCT_NAME',
-        'LOCATION',
-        'ADDRESS',
+        "PRODUCT_NAME",
+        "LOCATION",
+        "ADDRESS",
     )
     IFTTT(*values)
